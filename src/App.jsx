@@ -1,6 +1,6 @@
 import "./App.css";
+import CartPage from "./components/Cart/CartPage";
 import Navbar from "./components/Navbar/Navbar";
-import SingleProductPage from "./components/SingleProduct/SingleProductPage";
 
 function App() {
   return (
@@ -9,7 +9,8 @@ function App() {
       <main>
         {/* <HomePage /> */}
         {/* <ProductsPage /> */}
-        <SingleProductPage />
+        {/* <SingleProductPage /> */}
+        <CartPage />
       </main>
     </div>
   );
