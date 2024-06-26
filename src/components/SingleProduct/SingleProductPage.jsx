@@ -1,4 +1,5 @@
 import { useState } from "react";
+import QuantityInput from "./QuantityInput";
 import "./SingleProductPage.css";
 
 //샘플 제품 객체
@@ -52,7 +53,7 @@ const SingleProductPage = () => {
 
         <h2 className="quantity_title">구매개수:</h2>
         <div className="align_center quantity_input">
-          {/* <QuantityInput /> */}
+          <QuantityInput />
         </div>
 
         <button className="search_button add_cart">장바구니 추가</button>
