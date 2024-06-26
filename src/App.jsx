@@ -1,5 +1,5 @@
 import "./App.css";
-import CartPage from "./components/Cart/CartPage";
+import LoginPage from "./components/Authentication/LoginPage";
 import Navbar from "./components/Navbar/Navbar";
 
 function App() {
@@ -10,7 +10,9 @@ function App() {
         {/* <HomePage /> */}
         {/* <ProductsPage /> */}
         {/* <SingleProductPage /> */}
-        <CartPage />
+        {/* <CartPage /> */}
+        {/* <MyOrderPage /> */}
+        <LoginPage />
       </main>
     </div>
   );
