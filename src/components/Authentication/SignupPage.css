@@ -22,6 +22,7 @@
 
 /* 이미지 업로드 섹션 스타일 */
 .image_input_section {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,12 +100,13 @@
 .form_error {
   color: red;
   font-size: 12px;
-  margin-top: 5px;
+
   display: block;
 }
 
 /* 제출 버튼 스타일 */
 .search_button {
+  margin-top: 30px;
   width: 100%;
   padding: 15px;
   background: #6457f9;
