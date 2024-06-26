@@ -1,6 +1,5 @@
-import React from "react";
 import "./App.css";
-import LoginPage from "./components/Authentication/LoginPage";
+import SignupPage from "./components/Authentication/SignupPage";
 import Navbar from "./components/Navbar/Navbar";
 
 function App() {
@@ -13,7 +12,8 @@ function App() {
         {/* <SingleProductPage /> */}
         {/* <CartPage /> */}
         {/* <MyOrderPage /> */}
-        <LoginPage />
+        {/* <LoginPage /> */}
+        <SignupPage />
       </main>
     </div>
   );

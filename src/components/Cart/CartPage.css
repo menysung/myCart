@@ -29,9 +29,6 @@
   cursor: pointer;
 }
 
-.table_quantity_input {
-  padding: 8px;
-}
 .cart_bill {
   align-self: flex-end;
   width: 400px;
