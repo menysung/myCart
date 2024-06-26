@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import LoginPage from "./components/Authentication/LoginPage";
 import Navbar from "./components/Navbar/Navbar";
