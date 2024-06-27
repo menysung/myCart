@@ -1,5 +1,6 @@
 import useData from "../../Hook/useData";
 import ProductCard from "./ProductCard";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 import "./ProductsList.css";
 
 // const ProductsList = () => {
@@ -17,7 +18,8 @@ import "./ProductsList.css";
 
 //서버에서 가져오는 데이터에는 제품 데이터 및 페이지 등 다른 데이터들 있음
 const ProductsList = () => {
-  const { data, error } = useData("products");
+  const { data, error, isLoading } = useData("/products");
+  const skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
     <section className="products_list_section">
@@ -34,6 +36,8 @@ const ProductsList = () => {
 
       <div className="products_list">
         {error && <em className="form_error">{error}</em>}
+        {isLoading && skeletons.map((n) => <ProductCardSkeleton key={n} />)}
+        <ProductCardSkeleton />
         {data.products &&
           data.products.map((product) => (
             <ProductCard
