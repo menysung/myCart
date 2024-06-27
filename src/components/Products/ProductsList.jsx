@@ -1,24 +1,19 @@
+import { useSearchParams } from "react-router-dom";
 import useData from "../../Hook/useData";
 import ProductCard from "./ProductCard";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import "./ProductsList.css";
 
-// const ProductsList = () => {
-//   //제품들 데이터
-//   const [products, setProducts] = useState([]);
-//   //에러메세지
-//   const [error, setError] = useState("");
-//   //처음 시작시 제품데이터를 가져옴
-//   useEffect(() => {
-//     apiClient
-//       .get("/products") //Get으로 요청 기본주소+/products
-//       .then((res) => setProducts(res.data.products)) //결과를 업데이트
-//       .catch((err) => setError(err)); //에러발생시 업데이트
-//   }, []);
-
-//서버에서 가져오는 데이터에는 제품 데이터 및 페이지 등 다른 데이터들 있음
 const ProductsList = () => {
-  const { data, error, isLoading } = useData("/products");
+  const [search, setSearch] = useSearchParams(); // ?(물음표) 뒤의 쿼리스트링 가져온다
+  const category = search.get("category"); //쿼리스트링에서 category=값을 가져온다
+  console.log("카테고리 :" + category);
+  //서버에서 가져오는 데이터에는 제품데이터 및 페이지등 다른 데이터들 있음.
+  const { data, error, isLoading } = useData(
+    "products",
+    { params: { category } },
+    [category]
+  );
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
@@ -37,7 +32,6 @@ const ProductsList = () => {
       <div className="products_list">
         {error && <em className="form_error">{error}</em>}
         {isLoading && skeletons.map((n) => <ProductCardSkeleton key={n} />)}
-        <ProductCardSkeleton />
         {data.products &&
           data.products.map((product) => (
             <ProductCard
