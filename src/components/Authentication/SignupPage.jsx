@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 
 import user from "../../assets/user.webp";
 
+import { signup } from "../../services/userServices";
 import "./SignupPage.css";
 
 const SignupPage = () => {
   //업로드 파일(이미지파일)
   const [profilePic, setProfilePic] = useState(null);
-  console.log(profilePic);
+  const [formError, setFormError] = useState("");
   const {
     register,
     handleSubmit,
@@ -16,7 +17,13 @@ const SignupPage = () => {
     watch,
   } = useForm();
 
-  const submitData = (formData) => console.log(formData);
+  const submitData = async (formData) => {
+    try {
+      await signup(formData, profilePic);
+    } catch (err) {
+      setFormError(err.response.data.message);
+    }
+  };
 
   //console.log(profilePic);
 
@@ -95,7 +102,7 @@ const SignupPage = () => {
               placeholder="패스워드 입력..."
               {...register("password", {
                 required: "패스워드를 입력해주세요.",
-                minLength: { value: 4, message: "패스워드는 최소 4자 이상." },
+                minLength: { value: 8, message: "패스워드는 최소 8자 이상." },
               })}
             />
             {errors.password && (
@@ -140,6 +147,8 @@ const SignupPage = () => {
             )}
           </div>
         </div>
+
+        {formError && <em className="form_error">{formError}</em>}
 
         <button className="search_button form_submit" type="submit">
           Submit
