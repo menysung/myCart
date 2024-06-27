@@ -20,6 +20,7 @@ const SignupPage = () => {
   const submitData = async (formData) => {
     try {
       await signup(formData, profilePic);
+      window.location = "/";
     } catch (err) {
       setFormError(err.response.data.message);
     }
@@ -139,7 +140,7 @@ const SignupPage = () => {
               placeholder="배송주소 입력..."
               {...register("deliveryAddress", {
                 required: "배송주소를 입력해주세요.",
-                minLength: { value: 10, message: "배송주소는 최소 10자 이상." },
+                minLength: { value: 8, message: "배송주소는 최소 8자 이상." },
               })}
             />
             {errors.deliveryAddress && (

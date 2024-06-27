@@ -14,6 +14,7 @@ const LoginPage = () => {
   const submitData = async (formData) => {
     try {
       await login(formData);
+      window.location = "/";
     } catch (err) {
       setFormError(err.response.data.message);
     }
