@@ -9,10 +9,14 @@ export async function signup(user, profile) {
   body.append("profilePic", profile);
 
   // axios로 서버에 유저폼데이터 post 요청한다
-  await apiClient.post("/user/signup", body);
+  // 토큰을 저장한다
+  const { data } = await apiClient.post("/user/signup", body);
+  localStorage.setItem("token", data.token);
 }
 
 // 로그인 함수 : 유저객체를 입력한다
+// 토큰을 저장한다
 export async function login(user) {
-  await apiClient.post("/user/login", user);
+  const { data } = await apiClient.post("/user/login", user);
+  localStorage.setItem("token", data.token);
 }
