@@ -9,7 +9,7 @@ import rocket from "../../assets/rocket.png";
 import LinkWithIcon from "./LinkWithIcon";
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = (user) => {
   return (
     <nav className="align_center navbar">
       <div className="align_center">
@@ -28,13 +28,24 @@ const Navbar = () => {
       <div className="align_center navbar_links">
         <LinkWithIcon title="홈페이지" link="/" emoji={rocket} />
         <LinkWithIcon title="상품들" link="/products" emoji={star} />
-        <LinkWithIcon title="로그인" link="/login" emoji={idButton} />
-        <LinkWithIcon title="가입" link="/signup" emoji={memo} />
-        <LinkWithIcon title="내주문" link="/myorders" emoji={order} />
-        <LinkWithIcon title="로그아웃" link="/logout" emoji={lock} />
-        <NavLink to="/cart" className="align_center">
-          장바구니 <p className="align_center cart_counts">0</p>
-        </NavLink>
+
+        {/* 유저정보가 있을경우에만 주문, 로그아웃, 장바구니메뉴*/}
+        {/* 없을경우 로그인, 가입 */}
+        {!user && (
+          <>
+            <LinkWithIcon title="로그인" link="/login" emoji={idButton} />
+            <LinkWithIcon title="가입" link="/signup" emoji={memo} />
+          </>
+        )}
+        {user && (
+          <>
+            <LinkWithIcon title="내주문" link="/myorders" emoji={order} />
+            <LinkWithIcon title="로그아웃" link="/logout" emoji={lock} />
+            <NavLink to="/cart" className="align_center">
+              장바구니 <p className="align_center cart_counts">0</p>
+            </NavLink>
+          </>
+        )}
       </div>
     </nav>
   );

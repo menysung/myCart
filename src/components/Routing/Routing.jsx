@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import LoginPage from "../Authentication/LoginPage";
+import Logout from "../Authentication/Logout";
 import SignupPage from "../Authentication/SignupPage";
 import CartPage from "../Cart/CartPage";
 import HomePage from "../Home/HomePage";
@@ -16,6 +17,7 @@ const Routing = () => {
       <Route path="/product/:id" element={<SingleProductPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/logout" element={<Logout />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/myorders" element={<MyOrderPage />} />
     </Routes>

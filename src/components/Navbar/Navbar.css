@@ -10,14 +10,14 @@
 }
 
 .navbar_form {
-  display: flex; /* 플렉스 컨테이너로 만듭니다 */
-
-  width: 450px;
+  position: relative;
+  display: flex;
   width: 450px;
   height: 40px;
   border: 1px solid #cdcdcd;
   border-radius: 5px;
   padding: 3px;
+  overflow: hidden;
 }
 
 .navbar_search {
@@ -31,7 +31,9 @@
 }
 
 .search_button {
-  margin-top: 1px;
+  position: relative;
+  right: 5px; /* 오른쪽 끝에 배치 */
+  margin-bottom: 30px;
   height: 100%;
   padding: 0px 10px;
   font-size: 20px;
@@ -41,6 +43,8 @@
   background-color: #6457f9;
   color: #fff;
   cursor: pointer;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
 }
 
 .navbar_links {
@@ -66,7 +70,6 @@
   font-size: 15px;
   margin-left: 5px;
 }
-
 /* active 클래스가 a태그에 들어가면 더 진하게 바꿈 */
 .navbar_links > a.active {
   font-weight: 600;
