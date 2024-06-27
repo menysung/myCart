@@ -52,6 +52,9 @@ const SingleProductPage = () => {
 
             <h2 className="quantity_title">구매개수:</h2>
             <div className="align_center quantity_input">
+              {/* quantity: 현재 선택된 수량 */}
+              {/* setquantiry: 수량을 업데이트하는 함수 */}
+              {/* stock: 제품의 재고 수량 */}
               <QuantityInput
                 quantity={quantity}
                 setQuantity={setQuantity}
