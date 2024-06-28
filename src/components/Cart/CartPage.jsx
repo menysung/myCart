@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import remove from "../../assets/remove.png";
+import CartContext from "../../contexts/CartContext";
 import UserContext from "../../contexts/UserContext";
 import Table from "../Common/Table";
 import QuantityInput from "../SingleProduct/QuantityInput";
 import "./CartPage.css";
 
-const CartPage = ({ cart }) => {
+const CartPage = () => {
   const [subTotal, setSubTotal] = useState(0);
   const user = useContext(UserContext);
+  const { cart, addToCart } = useContext(CartContext);
   console.log(user);
   useEffect(() => {
     let total = 0;

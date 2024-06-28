@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useData from "../../Hook/useData";
+import CartContext from "../../contexts/CartContext";
 import Loader from "../Common/Loader";
 import QuantityInput from "./QuantityInput";
 import "./SingleProductPage.css";
 
-const SingleProductPage = ({ addToCart }) => {
+const SingleProductPage = () => {
+  const { addToCart } = useContext(CartContext);
   //선택한 이미지 기억 (선택한 이미지 인덱스 번호를 저장)
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
