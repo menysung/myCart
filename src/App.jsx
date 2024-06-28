@@ -5,7 +5,11 @@ import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/Routing/Routing";
 import CartContext from "./contexts/CartContext";
 import UserContext from "./contexts/UserContext";
-import { addToCartAPI, getCartAPI } from "./services/cartServices";
+import {
+  addToCartAPI,
+  getCartAPI,
+  removeFromCartAPI,
+} from "./services/cartServices";
 import setAuthToken from "./utils/setAuthToken";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -57,6 +61,9 @@ function App() {
     const oldCart = [...cart];
     const newCart = oldCart.filter((item) => item.product._id !== id);
     setCart(newCart);
+    removeFromCartAPI(id).catch((err) => {
+      toast.error("장바구니 상품 삭제 에러");
+    });
   };
 
   useEffect(() => {

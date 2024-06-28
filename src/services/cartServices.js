@@ -5,7 +5,12 @@ export function addToCartAPI(id, quantity) {
   return apiClient.post(`/cart/${id}`, { quantity });
 }
 
-// 카트 정보를 가져오는 함수
+// 카트 데이터를 가져오는 함수
 export async function getCartAPI() {
   return await apiClient.get("/cart");
+}
+
+// 상품(id)을 삭제한다
+export function removeFromCartAPI(id) {
+  return apiClient.patch(`/cart/remove/${id}`);
 }
