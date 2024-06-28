@@ -33,6 +33,7 @@
 .search_button {
   position: relative;
   right: 5px; /* 오른쪽 끝에 배치 */
+
   margin-bottom: 30px;
   height: 100%;
   padding: 0px 10px;

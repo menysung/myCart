@@ -1,10 +1,13 @@
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import "./App.css";
+import { ToastContainer, toast } from "react-toastify";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/Routing/Routing";
-import { addToCartAPI } from "./services/cartServices";
+import { addToCartAPI, getCartAPI } from "./services/cartServices";
 import setAuthToken from "./utils/setAuthToken";
+
+import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 
 //이미 인증된 토큰이 있으면 요청헤더에 추가하고 없으면 제거한다.
 setAuthToken(localStorage.getItem("token"));
@@ -29,12 +32,27 @@ function App() {
     // 백엔드 서버에도 장바구니 추가
     addToCartAPI(product._id, quantity)
       .then((res) => {
-        console.log(res.data);
+        toast.success("상품 추가 성공!");
       })
       .catch((err) => {
-        console.log(err.response);
+        toast.error("상품 추가에 실패했습니다.");
       });
   };
+
+  // 카트 정보를 가져오는 함수를 카트 페이지로 전달한다
+  const getCart = () => {
+    getCartAPI()
+      .then((res) => {
+        setCart(res.data);
+      })
+      .catch((err) => {
+        toast.error("카트 가져오기에 실패했습니다.");
+      });
+  };
+  useEffect(() => {
+    getCart(); //처음 시작 및 유저가 바뀌면 가져온다
+  }, [user]);
+
   //시작시 jwt 토큰을 가져옴
   useEffect(() => {
     try {
@@ -53,7 +71,9 @@ function App() {
     <div className="app">
       <Navbar user={user} cartCount={cart.length} />
       <main>
-        <Routing addToCart={addToCart} />
+        {/* 토스트메세지 위치 지정 가능 */}
+        <ToastContainer position="bottom-right" />
+        <Routing addToCart={addToCart} cart={cart} />
       </main>
     </div>
   );
