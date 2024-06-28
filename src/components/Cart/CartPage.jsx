@@ -1,18 +1,32 @@
+import { useContext, useEffect, useState } from "react";
 import remove from "../../assets/remove.png";
-import user from "../../assets/user.webp";
+import UserContext from "../../contexts/UserContext";
 import Table from "../Common/Table";
 import QuantityInput from "../SingleProduct/QuantityInput";
 import "./CartPage.css";
 
 const CartPage = ({ cart }) => {
-  // console.log(cart);
+  const [subTotal, setSubTotal] = useState(0);
+  const user = useContext(UserContext);
+  console.log(user);
+  useEffect(() => {
+    let total = 0;
+    cart.forEach((item) => {
+      total += item.product.price * item.quantity;
+    });
+    setSubTotal(total); //제품 합계 가격을 계산해서 카트가 바뀔때마다 저장한다
+  }, [cart]);
   return (
     <section className="align_center cart_page">
       <div className="align_center user_info">
-        <img src={user} alt="user profile" />
+        <img
+          src={`http://localhost:5000/profile/${user?.profilePic}`}
+          alt="user profile"
+        />
         <div>
-          <p className="user_name">Dooly</p>
-          <p className="user_email">dooly@naver.com</p>
+          {/* 유저가 있을 경우 ? 출력한다 (물음표가 있기때문에 유저가 없어도 에러가 안 남)*/}
+          <p className="user_name">{user?.name}</p>
+          <p className="user_email">{user?.email}</p>
         </div>
       </div>
 
@@ -43,15 +57,15 @@ const CartPage = ({ cart }) => {
         <tbody>
           <tr>
             <td>총 금액</td>
-            <td>1200,000 원</td>
+            <td>{subTotal.toLocaleString("ko-KR")} 원</td>
           </tr>
           <tr>
             <td>배송비</td>
-            <td>5,000 원</td>
+            <td>3,000 원</td>
           </tr>
           <tr className="cart_bill_final">
             <td>결재금액</td>
-            <td>1205,000 원</td>
+            <td>{(subTotal + 3000).toLocaleString("ko-KR")} 원</td>
           </tr>
         </tbody>
       </table>

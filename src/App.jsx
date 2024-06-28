@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/Routing/Routing";
+import UserContext from "./contexts/UserContext";
 import { addToCartAPI, getCartAPI } from "./services/cartServices";
 import setAuthToken from "./utils/setAuthToken";
 
@@ -68,14 +69,16 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <Navbar user={user} cartCount={cart.length} />
-      <main>
-        {/* 토스트메세지 위치 지정 가능 */}
-        <ToastContainer position="bottom-right" />
-        <Routing addToCart={addToCart} cart={cart} />
-      </main>
-    </div>
+    <UserContext.Provider value={user}>
+      <div className="app">
+        <Navbar user={user} cartCount={cart.length} />
+        <main>
+          {/* 토스트메세지 위치 지정 가능 */}
+          <ToastContainer position="bottom-right" />
+          <Routing addToCart={addToCart} cart={cart} />
+        </main>
+      </div>
+    </UserContext.Provider>
   );
 }
 
