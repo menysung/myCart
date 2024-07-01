@@ -14,11 +14,12 @@ const LoginPage = () => {
   const submitData = async (formData) => {
     try {
       await login(formData);
-      window.location = "/";
+      window.location = "/"; //로그인 되어 홈페이지로 이동
     } catch (err) {
       setFormError(err.response.data.message);
     }
   };
+
   return (
     <section className="align_center form_page">
       <form onSubmit={handleSubmit(submitData)} className="authentication_form">
@@ -39,7 +40,7 @@ const LoginPage = () => {
             <label htmlFor="password">Password</label>
             <input
               {...register("password", {
-                required: "패스워드를 입력해주세요.",
+                required: "패스워드를 입력해주세요",
                 minLength: { value: 4, message: "패스워드는 최소 4자 이상." },
               })}
               className="form_text_input"

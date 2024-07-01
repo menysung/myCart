@@ -20,13 +20,13 @@ const SignupPage = () => {
   const submitData = async (formData) => {
     try {
       await signup(formData, profilePic);
-      window.location = "/";
+      window.location = "/"; //가입되어 홈페이지로 이동
     } catch (err) {
       setFormError(err.response.data.message);
     }
   };
 
-  //console.log(profilePic);
+  console.log(profilePic);
 
   return (
     <section className="align_center form_page">
@@ -34,7 +34,7 @@ const SignupPage = () => {
         className="authentication_form signup_form"
         onSubmit={handleSubmit(submitData)}
       >
-        <h2 className="signup_title">회원가입 폼</h2>
+        <h2>회원가입 폼</h2>
 
         <div className="image_input_section">
           <div className="image_preview">
@@ -103,7 +103,7 @@ const SignupPage = () => {
               placeholder="패스워드 입력..."
               {...register("password", {
                 required: "패스워드를 입력해주세요.",
-                minLength: { value: 8, message: "패스워드는 최소 8자 이상." },
+                minLength: { value: 4, message: "패스워드는 최소 4자 이상." },
               })}
             />
             {errors.password && (
@@ -140,7 +140,7 @@ const SignupPage = () => {
               placeholder="배송주소 입력..."
               {...register("deliveryAddress", {
                 required: "배송주소를 입력해주세요.",
-                minLength: { value: 8, message: "배송주소는 최소 8자 이상." },
+                minLength: { value: 10, message: "배송주소는 최소 10자 이상." },
               })}
             />
             {errors.deliveryAddress && (

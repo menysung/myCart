@@ -6,7 +6,10 @@ const HeroSection = ({ title, subtitle, link, image }) => {
       <div className="align_center">
         <h2 className="hero_title">{title}</h2>
         <p className="hero_subtitle">{subtitle}</p>
-        <a href={link} className="hero_link">
+        <a
+          href={(link = "/product/667ba276d8d454d816ae5cfb")}
+          className="hero_link"
+        >
           바로구매
         </a>
       </div>

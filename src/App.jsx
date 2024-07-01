@@ -3,17 +3,19 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/Routing/Routing";
-import CartContext from "./contexts/CartContext";
-import UserContext from "./contexts/UserContext";
 import {
   addToCartAPI,
+  decreaseProductAPI,
   getCartAPI,
+  increaseProductAPI,
   removeFromCartAPI,
 } from "./services/cartServices";
 import setAuthToken from "./utils/setAuthToken";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import CartContext from "./contexts/CartContext";
+import UserContext from "./contexts/UserContext";
 
 //이미 인증된 토큰이 있으면 요청헤더에 추가하고 없으면 제거한다.
 setAuthToken(localStorage.getItem("token"));
@@ -21,7 +23,7 @@ setAuthToken(localStorage.getItem("token"));
 function App() {
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState([]);
-  console.log(cart);
+  //console.log(cart);
   //제품과, 개수를 입력하여 장바구니 업데이트
   const addToCart = (product, quantity) => {
     //같은 제품이 추가되면 수량만 추가하자!
@@ -35,17 +37,12 @@ function App() {
       updatedCart[productIndex].quantity += quantity;
     }
     setCart(updatedCart);
-    // 백엔드 서버에도 장바구니 추가
+    //벡엔드 서버에도 장바구니 추가
     addToCartAPI(product._id, quantity)
-      .then((res) => {
-        toast.success("상품 추가 성공!");
-      })
-      .catch((err) => {
-        toast.error("상품 추가에 실패했습니다.");
-      });
+      .then((res) => toast.success("상품 추가 성공!~"))
+      .catch((err) => toast.error("상품 추가에 실패했습니다."));
   };
-
-  // 카트 정보를 가져오는 함수를 카트 페이지로 전달한다
+  //카트 정보를 가져옴
   const getCart = () => {
     getCartAPI()
       .then((res) => {
@@ -55,8 +52,7 @@ function App() {
         toast.error("카트 가져오기에 실패했습니다.");
       });
   };
-
-  // 장바구니에서 상품 삭제
+  //장바구니에서 상품 삭제 함수
   const removeFromCart = (id) => {
     const oldCart = [...cart];
     const newCart = oldCart.filter((item) => item.product._id !== id);
@@ -65,28 +61,31 @@ function App() {
       toast.error("장바구니 상품 삭제 에러");
     });
   };
-
-  // 장바구니 상품 수량 증가/감소
+  //장바구니 상품 수량 증가 감소
   const updateCart = (type, id) => {
     const updatedCart = [...cart]; //장바구니 복사
     const productIndex = updatedCart.findIndex(
       (item) => item.product._id === id
     );
-    // 상품 타입이 증가면 +1, 감소면 -1 수량 업데이트한다
+    //타입이 증가면 +1 , 감소면 -1 개수 업데이트
     if (type === "increase") {
       updatedCart[productIndex].quantity += 1;
       setCart(updatedCart);
+      increaseProductAPI(id).catch((err) => {
+        toast.error("상품 증가 에러");
+      });
     }
     if (type === "decrease") {
       updatedCart[productIndex].quantity -= 1;
       setCart(updatedCart);
+      decreaseProductAPI(id).catch((err) => {
+        toast.error("상품 감소 에러");
+      });
     }
   };
-
   useEffect(() => {
-    getCart(); //처음 시작 및 유저가 바뀌면 가져온다
+    if (user) getCart(); //처음 시작 및 유저가 바뀌면 가져옴
   }, [user]);
-
   //시작시 jwt 토큰을 가져옴
   useEffect(() => {
     try {
@@ -102,20 +101,19 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={user}>
-      <CartContext.Provider
-        value={{ cart, addToCart, removeFromCart, updateCart }}
-      >
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, updateCart, setCart }}
+    >
+      <UserContext.Provider value={user}>
         <div className="app">
           <Navbar user={user} cartCount={cart.length} />
           <main>
-            {/* 토스트메세지 위치 지정 가능 */}
             <ToastContainer position="bottom-right" />
-            <Routing />
+            <Routing user={user} />
           </main>
         </div>
-      </CartContext.Provider>
-    </UserContext.Provider>
+      </UserContext.Provider>
+    </CartContext.Provider>
   );
 }
 

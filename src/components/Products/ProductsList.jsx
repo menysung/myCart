@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useData from "../../Hook/useData";
 import Pagination from "../Common/Pagination";
@@ -10,6 +11,8 @@ const ProductsList = () => {
   const category = search.get("category"); //쿼리스트링에서 category=값을 가져온다
   const page = search.get("page");
   const searchQuery = search.get("search"); //검색어 가져오기
+  const [sortBy, setSortBy] = useState("");
+  const [sortedProducts, setSortedProducts] = useState([]);
   //console.log("카테고리 :" + category);
   //서버에서 가져오는 데이터에는 제품데이터 및 페이지등 다른 데이터들 있음.
   const { data, error, isLoading } = useData(
@@ -25,11 +28,38 @@ const ProductsList = () => {
     setSearch({ ...currentParams, page: page });
   };
 
+  useEffect(() => {
+    if (data && data.products) {
+      const products = [...data.products]; //제품 데이터 복사
+
+      if (sortBy === "price desc") {
+        setSortedProducts(products.sort((a, b) => b.price - a.price));
+      } else if (sortBy === "price asc") {
+        setSortedProducts(products.sort((a, b) => a.price - b.price));
+      } else if (sortBy === "rate desc") {
+        setSortedProducts(
+          products.sort((a, b) => b.reviews.rate - a.reviews.rate)
+        );
+      } else if (sortBy === "rate asc") {
+        setSortedProducts(
+          products.sort((a, b) => a.reviews.rate - b.reviews.rate)
+        );
+      } else {
+        setSortedProducts(products);
+      }
+    }
+  }, [sortBy, data]);
+
   return (
     <section className="products_list_section">
       <header className="align_center products_list_header">
         <h2>상품목록</h2>
-        <select name="sort" id="" className="products_sorting">
+        <select
+          name="sort"
+          id=""
+          className="products_sorting"
+          onChange={(e) => setSortBy(e.target.value)}
+        >
           <option value="">정렬방법</option>
           <option value="price desc">가격높은순</option>
           <option value="price asc">가격낮은순</option>
@@ -42,17 +72,8 @@ const ProductsList = () => {
         {error && <em className="form_error">{error}</em>}
         {isLoading && skeletons.map((n) => <ProductCardSkeleton key={n} />)}
         {data.products &&
-          data.products.map((product) => (
-            <ProductCard
-              key={product._id}
-              id={product._id}
-              title={product.title}
-              image={product.images[0]}
-              price={product.price}
-              rating={product.rating}
-              ratingCounts={product.reviews.counts}
-              stock={product.stock}
-            />
+          sortedProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
           ))}
       </div>
       {/* pagination 넣기 */}
