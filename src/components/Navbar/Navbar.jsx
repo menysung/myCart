@@ -5,17 +5,28 @@ import memo from "../../assets/memo.png";
 import order from "../../assets/package.png";
 import rocket from "../../assets/rocket.png";
 
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import LinkWithIcon from "./LinkWithIcon";
 import "./Navbar.css";
 
 const Navbar = ({ user, cartCount }) => {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate(); //window.location="이동주소" 대신 더 빠름
+  const handleSubmit = (e) => {
+    e.preventDefault(); //기존 submit 이벤트 중지
+    if (search.trim() !== "") {
+      navigate(`/products?search=${search.trim()}`);
+    }
+  };
   return (
     <nav className="align_center navbar">
       <div className="align_center">
         <h1 className="navbar_heading">myCart</h1>
-        <form className="align_center navbar_form">
+        <form onSubmit={handleSubmit} className="align_center navbar_form">
           <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             type="text"
             className="navbar_search"
             placeholder="제품 찾기..."
